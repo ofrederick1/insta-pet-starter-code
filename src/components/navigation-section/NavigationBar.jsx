@@ -33,6 +33,9 @@ function NavigationBar(props) {
             <NavItem>
               <NavLink href="/components/">About Us</NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink href="/components/">Login</NavLink>
+            </NavItem>
           </Nav>
         </Collapse>
       </Navbar>

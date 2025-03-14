@@ -1,14 +1,56 @@
 import { Form, FormGroup, Input, Label } from "reactstrap";
+import { useState } from "react";
 import PetButton from "../../custom/PetButton";
+
+// API Endpoint (Replace with actual API URL)
+import { API_SIGNUP } from "../../../constants/endpoints";
 
 const SignUp = (props) => {
   // TODO: Create state variables for first name, last name, email, and password using the useState hook. The initial value for first name should be "John", the initial value for last name should be "Doe", the initial value for email should be "
 
-  // TODO: Create a function called handleSubmit that will console.log("Click Worked")
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-  // TODO: Add the state variables to the input fields for first name, last name, email, and password to create a dual binding
+  // TODO: Create a function called handleSubmit that will console.log("Click Worked")
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log("Click Worked");
+    signUp();
+  }
 
   // TODO: Create the function responsible for adding the new user to the database
+
+  //body
+  async function signUp() {
+    try {
+      const requestBody = {
+        firstName,
+        lastName,
+        email,
+        password,
+      };
+//headers
+      const response = await fetch(API_SIGNUP, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+      console.log("Signup Response:", data);
+
+      // Handle response 
+      if (data.sessionToken) {
+        props.updateToken(data.sessionToken);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   
   return (
     <>
@@ -31,6 +73,8 @@ const SignUp = (props) => {
                 name="firstName"
                 id="firstName"
                 placeholder="Enter First Name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </FormGroup>
             {/* Form Group End First Name */}
@@ -43,6 +87,8 @@ const SignUp = (props) => {
                 name="lastName"
                 id="lastName"
                 placeholder="Enter Last Name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
               />
             </FormGroup>
             {/* Form Group End Last Name */}
@@ -55,6 +101,8 @@ const SignUp = (props) => {
                 name="email"
                 id="email"
                 placeholder="Enter Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </FormGroup>
             {/* Form Group End Email */}
@@ -66,14 +114,16 @@ const SignUp = (props) => {
                 name="password"
                 id="password"
                 placeholder="Enter Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </FormGroup>
             {/* Form Group End Password */}
-
-            {/* Button Here */}
-            <PetButton onClick={() => console.log("Click Worked")}>
+            <PetButton onClick={handleSubmit}>
               SIGN UP
             </PetButton>
+
+          
           </Form>
         </div>
       </div>

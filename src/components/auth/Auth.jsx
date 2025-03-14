@@ -11,7 +11,7 @@ const Auth = (props) => {
   return (
     <>
       {/* TODO: Create a ternary based on showLogin show the login component if show login is true otherwise if signup will be shown */}
-      <Login />
+      <Login updateToken={props.updateToken}  />
       <SignUp />
     </>
   );
